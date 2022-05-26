@@ -99,7 +99,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
         vol.Optional(CONF_TARGET_TEMP_LOW): vol.Coerce(float),
         vol.Optional(CONF_KEEP_ALIVE): vol.All(cv.time_period, cv.positive_timedelta),
         vol.Optional(CONF_INITIAL_HVAC_MODE): vol.In(
-            [HVACMode.COOL, HVACMode.HEAT, HVACMode.OFF, HVACMode.HEAT_COOL]
+            [HVACMode.COOL, HVACMode.HEAT, HVACMode.OFF, HVACMode.HEAT_COOL, HVACMode.FAN_ONLY]
         ),
         vol.Optional(CONF_AWAY_TEMP): vol.Coerce(float),
         vol.Optional(CONF_PRECISION): vol.In(
@@ -498,6 +498,8 @@ class DualSmartThermostat(ClimateEntity, RestoreEntity):
             self._hvac_mode = HVACMode.HEAT_COOL
             self._support_flags = SUPPORT_TARGET_TEMPERATURE_RANGE
             await self._async_control_heat_cool(force=True)
+        elif hvac_mode == HVACMode.FAN_ONLY:
+            self._hvac_mode = HVACMode.FAN_ONLY
         elif hvac_mode == HVACMode.OFF:
             self._hvac_mode = HVACMode.OFF
             if self._is_device_active:
