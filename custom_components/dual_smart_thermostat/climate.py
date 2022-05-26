@@ -222,6 +222,7 @@ class DualSmartThermostat(ClimateEntity, RestoreEntity):
         if self.heater_entity_id and self.cooler_entity_id:
             self._hvac_list = [
                 HVACMode.OFF,
+                HVACMode.FAN_ONLY,
                 HVACMode.HEAT_COOL,
             ]
         elif self.ac_mode:
